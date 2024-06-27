@@ -31,11 +31,17 @@ const productDisplay = {
         
     `,
     setup() {
-        const product = ref('Boots');
-        const brand = ref('SE 331');
         // const image = ref('./assets/images/socks_green.jpg');
         // const inStock = ref(true);
+        const product = ref('Socks');
+        const brand =ref('SE 331')
+        const description = ref('made with tear of 13 yo kids');
+        function updateStock() {
+            inStock.value = !inStock.value;
+        }
+
         const inventory = ref(100);
+
         const details = ref([
             '50% cotton',
             '30% wool',
@@ -43,15 +49,13 @@ const productDisplay = {
         ]);
 
         const variants = ref([
-            { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50},
-            { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0},
+            { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50, Sale: true},
+            { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0, Sale: false},
         ]);
-
-        const selectedVariant = ref(0);
-        const cart = ref(0);
-        function updateVariant(index) {
-            selectedVariant.value = index;
+        function updateImage(variantImage) {
+            image.value = variantImage;
         }
+
         const image = computed(() => {
             return variants.value[selectedVariant.value].image;
         });
@@ -60,32 +64,54 @@ const productDisplay = {
             return variants.value[selectedVariant.value].quantity;
         });
 
-        const addToCart = () => {
+        const selectedVariant = ref(0);
+        function updateVariant(index) {
+            selectedVariant.value = index;
+        }
+
+        const onSale = computed(() => {
+            return variants.value[selectedVariant.value].Sale;
+        });
+        function updateSale() {
+            onSale.value = !onSale.value;
+        }
+
+        const sizes = ref([
+            { id: 1, size: 'S' },
+            { id: 2, size: 'M' },
+            { id: 3, size: 'L' },
+        ]);
+
+        const cart = ref(0);
+        function addToCart() {
             cart.value += 1;
-        };
+        }
 
         const title = computed(() => {
-            return brand.value + ' ' + product.value;
+            if (onSale.value == true) { 
+            return brand.value + ' ' + product.value + ' ' + 'On Sale';
+            }
+            else {
+                return brand.value + ' ' + product.value;
+            }
         });
 
-        function updateImage(variantImage) {
-            image.value = variantImage;
-        }
-
-        return{
-            product,
-            brand,
-            image,
-            inventory,
-            details,
-            variants,
-            selectedVariant,
-            cart,
-            title,
-            inStock,
-            addToCart,
-            updateVariant,
-            updateImage,
-        }
+            return {
+                title,
+                description,
+                image,
+                inStock,
+                inventory,
+                onSale,
+                details,
+                variants,
+                sizes,
+                cart,
+                addToCart,
+                updateImage,
+                updateStock,
+                updateSale,
+                updateVariant,
+            }
     }
 }
