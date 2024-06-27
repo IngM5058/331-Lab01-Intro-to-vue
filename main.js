@@ -44,8 +44,7 @@ createApp({
         });
 
             return {
-                product,
-                brand,
+                title,
                 description,
                 image,
                 inStock,
