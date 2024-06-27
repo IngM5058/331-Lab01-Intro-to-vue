@@ -56,7 +56,8 @@
             {{size.size}}
         </div>
 
-        <button class="button" @click="addToCart">Add to Cart</button>
+        <!-- Add to Cart Button -->
+        <button class="button" :disabled='!inStock' @click="addToCart" :class="{disabledButton: !inStock}">Add to Cart</button>
     </div>
 
     <!-- Import Js -->
