@@ -26,7 +26,10 @@ const productDisplay = {
                 <button class="button" @click="updateStock"v-else>
                     Out of Stock
                 </button>
-            </div>   
+            </div>
+            
+            <!-- Shipping -->
+            <p>Shipping: {{shipping}}</p>
 
             <img class="out-of-stock-image" :disabled='inStock' src="assets/images/inStock.png" alt="" :class="{disabledButton: !inStock}" style="width: 20%; height: 20%">
 
@@ -52,12 +55,21 @@ const productDisplay = {
             <!-- Add to Cart Button -->
             <button class="button" :disabled='!inStock' @click="addToCart" :class="{disabledButton: !inStock}">Add to Cart</button>     
         </div>
-
-        
     `,
-    setup() {
+    props: {
+        premium: Boolean
+    },
+    setup(props) {
         // const image = ref('./assets/images/socks_green.jpg');
         // const inStock = ref(true);
+        const shipping = computed(() => {
+            if (premium) {
+                return 'Free';
+            }
+            else {
+                return 30;
+            }
+        });
         const product = ref('Socks');
         const brand =ref('SE 331')
         const description = ref('made with tear of 13 yo kids');
@@ -136,6 +148,7 @@ const productDisplay = {
                 updateStock,
                 updateSale,
                 updateVariant,
+                shipping
             }
     }
 }
