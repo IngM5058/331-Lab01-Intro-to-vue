@@ -31,7 +31,7 @@ createApp({
         });
 
         const inStock = computed(() => {
-            return variants.value[selectedVariant.value].quantity;
+            return variants.value[selectedVariant.value].quantity > 0;
         });
 
         const selectedVariant = ref(0);
@@ -51,7 +51,12 @@ createApp({
         }
 
         const title = computed(() => {
-            return brand.value + ' ' + product.value;
+            if (onSale.value == true) { 
+            return brand.value + ' ' + product.value + ' ' + 'On Sale';
+            }
+            else {
+                return brand.value + ' ' + product.value;
+            }
         });
 
             return {
