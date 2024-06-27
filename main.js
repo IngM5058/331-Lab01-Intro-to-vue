@@ -1,8 +1,9 @@
-const { createApp, ref } = Vue;
+const { createApp, ref, computed} = Vue;
 
 createApp({
     setup() {
         const product = ref('Socks');
+        const brand =ref('SE 331')
         const description = ref('Bro, trust me, dont buy it.');
         const image = ref('./assets/images/socks_green.jpg');
         const inStock = ref(true);
@@ -38,8 +39,13 @@ createApp({
             cart.value += 1;
         }
 
+        const title = computed(() => {
+            return brand.value + ' ' + product.value;
+        });
+
             return {
                 product,
+                brand,
                 description,
                 image,
                 inStock,
