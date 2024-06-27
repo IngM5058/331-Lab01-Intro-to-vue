@@ -10,7 +10,6 @@ createApp({
         }
 
         const inventory = ref(100);
-        const onSale = ref(true);
 
         const details = ref([
             '50% cotton',
@@ -19,8 +18,8 @@ createApp({
         ]);
 
         const variants = ref([
-            { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50},
-            { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0},
+            { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50, Sale: true},
+            { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0, Sale: false},
         ]);
         function updateImage(variantImage) {
             image.value = variantImage;
@@ -37,6 +36,13 @@ createApp({
         const selectedVariant = ref(0);
         function updateVariant(index) {
             selectedVariant.value = index;
+        }
+
+        const onSale = computed(() => {
+            return variants.value[selectedVariant.value].Sale;
+        });
+        function updateSale() {
+            onSale.value = !onSale.value;
         }
 
         const sizes = ref([
