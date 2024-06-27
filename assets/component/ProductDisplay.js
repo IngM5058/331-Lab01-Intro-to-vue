@@ -6,28 +6,53 @@ const productDisplay = {
         <div class="product-display">
             <div class="product-container">
                 <div class="product-image">
-                    <img :src="image" alt="">
+                    <!-- image goes here -->
+                    <img :src="image" alt="product" />
                 </div>
             </div>
-            <div class="product-info">
-                <h1>{{title}}</h1>
-                <p v-if="inventory > 10">In Stock</p>
-                <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
-                <p v-else>Out of Stock</p>
-                <ul>
-                    <li v-for="detail in details">{{detail}}</li>
-                </ul>
-                <div 
-                    v-for="(variant, index) in variants" 
-                    :key="variant.id" 
-                    @mouseover="updateVariant(index)" 
-                    class="color-circle" 
-                    :style="{backgroundColor: variant.color}">
-                </div>
 
-                <button class="button" @click="addToCart" :disabled="!inStock" :class="{disabledButton: !inStock}">Add to Cart</button>
+            <!-- Product Info -->
+            <div class="product-info">
+                <h1><a :href="'http://www.camt.cmu.ac.th'">{{title}}</a></h1>
+                <p>{{description}}</p>
             </div>
+
+            <!-- Stock Button -->
+            <div class="StockButton">
+                <button class="button" @click="updateStock"v-if="inStock">
+                    In Stock
+                </button>
+
+                <button class="button" @click="updateStock"v-else>
+                    Out of Stock
+                </button>
+            </div>   
+
+            <img class="out-of-stock-image" :disabled='inStock' src="assets/images/inStock.png" alt="" :class="{disabledButton: !inStock}" style="width: 20%; height: 20%">
+
+            <p v-if="onSale">On Sale</p>
+            <p v-else></p>
+
+            <ul>
+                <li v-for="detail in details">{{detail}}</li>
+            </ul>
+
+            <!-- Color Circle -->
+            <div v-for="(variant,index) in variants" :key="variant.id" @mouseover="updateVariant(index)" 
+                class="color-circle" :style="{backgroundColor: variant.color}">
+            </div>
+
+            <!-- Empty space between Color Circle and size-->
+            <p></p>
+
+            <div v-for="size in sizes" :key="size.id">
+                {{size.size}}
+            </div>
+
+            <!-- Add to Cart Button -->
+            <button class="button" :disabled='!inStock' @click="addToCart" :class="{disabledButton: !inStock}">Add to Cart</button>     
         </div>
+
         
     `,
     setup() {
@@ -82,7 +107,6 @@ const productDisplay = {
             { id: 3, size: 'L' },
         ]);
 
-        const cart = ref(0);
         function addToCart() {
             cart.value += 1;
         }

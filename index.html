@@ -16,58 +16,11 @@
         <div class="cart">
             Cart({{cart}})
         </div>
-        <div class="product-display">
-            <div class="product-container">
-                <div class="product-image">
-                    <!-- image goes here -->
-                    <img :src="image" alt="product" />
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Info -->
-        <div class="product-info">
-            <h1><a :href="'http://www.camt.cmu.ac.th'">{{title}}</a></h1>
-            <p>{{description}}</p>
-        </div>
-
-        <!-- Stock Button -->
-        <div class="StockButton">
-            <button class="button" @click="updateStock"v-if="inStock">
-                In Stock
-            </button>
-
-            <button class="button" @click="updateStock"v-else>
-                Out of Stock
-            </button>
-        </div>   
-
-        <img class="out-of-stock-image" :disabled='inStock' src="assets/images/inStock.png" alt="" :class="{disabledButton: !inStock}" style="width: 20%; height: 20%">
-
-        <p v-if="onSale">On Sale</p>
-        <p v-else></p>
-
-        <ul>
-            <li v-for="detail in details">{{detail}}</li>
-        </ul>
-
-        <!-- Color Circle -->
-        <div v-for="(variant,index) in variants" :key="variant.id" @mouseover="updateVariant(index)" 
-            class="color-circle" :style="{backgroundColor: variant.color}">
-        </div>
-
-        <!-- Empty space between Color Circle and size-->
-        <p></p>
-
-        <div v-for="size in sizes" :key="size.id">
-            {{size.size}}
-        </div>
-
-        <!-- Add to Cart Button -->
-        <button class="button" :disabled='!inStock' @click="addToCart" :class="{disabledButton: !inStock}">Add to Cart</button>
-    </div>
+        <product-display></product-display>
+    </div>  
 
     <!-- Import Js -->
+    <script src="./assets/component/ProductDisplay.js"></script>
     <script src="./main.js"></script>
 </body>
 
