@@ -25,11 +25,13 @@
             </div>
         </div>
 
+        <!-- Product Info -->
         <div class="product-info">
             <h1><a :href="'http://www.camt.cmu.ac.th'">{{product}}</a></h1>
             <p>{{description}}</p>
         </div>
 
+        <!-- Stock Button -->
         <div class="StockButton">
             <button class="button" @click="updateStock"v-if="inStock">
                 In Stock
@@ -40,8 +42,10 @@
             </button>
         </div>   
 
+        <img class="out-of-stock-image" :disabled='inStock' src="assets/images/inStock.png" alt="" :class="{disabledButton: !inStock}" style="width: 200px; height: 200px;">
+
         <p v-if="onSale">On Sale</p>
-        <p v-else>Sold Out</p>
+        <p v-else></p>
 
         <ul>
             <li v-for="detail in details">{{detail}}</li>
@@ -50,7 +54,8 @@
         <!-- Color Circle -->
         <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)" class="color-circle" :style="{backgroundColor: variant.color}"></div>
 
-        <p></p> <!-- Empty space between Color Circle and size-->
+        <!-- Empty space between Color Circle and size-->
+        <p></p>
 
         <div v-for="size in sizes" :key="size.id">
             {{size.size}}
