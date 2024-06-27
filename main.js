@@ -3,11 +3,16 @@ const { createApp, ref } = Vue;
 createApp({
     setup() {
         const product = ref('Socks');
-        const description = ref('These Socks is quite green.');
+        const description = ref('Bro, trust me, dont buy it.');
         const image = ref('./assets/images/socks_green.jpg');
         const inStock = ref(true);
+        function updateStock() {
+            inStock.value = !inStock.value;
+        }
+
         const inventory = ref(100);
         const onSale = ref(true);
+
         const details = ref([
             '50% cotton',
             '30% wool',
@@ -46,6 +51,7 @@ createApp({
                 cart,
                 addToCart,
                 updateImage,
+                updateStock,
             }
     }
 

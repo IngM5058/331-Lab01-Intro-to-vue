@@ -28,31 +28,36 @@
         <div class="product-info">
             <h1><a :href="'http://www.camt.cmu.ac.th'">{{product}}</a></h1>
             <p>{{description}}</p>
-
-            <p v-if="inventory > 10">In Stock</p>
-            <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
-            <p v-else>Out of Stock</p>
-
-            <p v-if="onSale">On Sale</p>
-            <p v-else>Sold Out</p>
-
-            <ul>
-                <li v-for="detail in details">{{detail}}</li>
-            </ul>
-
-            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)">
-                {{variant.color}}
-            </div>
-
-            <p></p> <!-- Empty space between color and size-->
-
-            <div v-for="size in sizes" :key="size.id">
-                {{size.size}}
-            </div>
-
-            <button class="button" @click="addToCart">Add to Cart</button>
-
         </div>
+
+        <div class="StockButton">
+            <button class="button" @click="updateStock"v-if="inStock">
+                In Stock
+            </button>
+
+            <button class="button" @click="updateStock"v-else>
+                Out of Stock
+            </button>
+        </div>   
+
+        <p v-if="onSale">On Sale</p>
+        <p v-else>Sold Out</p>
+
+        <ul>
+            <li v-for="detail in details">{{detail}}</li>
+        </ul>
+
+        <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)">
+            {{variant.color}}
+        </div>
+
+        <p></p> <!-- Empty space between color and size-->
+
+        <div v-for="size in sizes" :key="size.id">
+            {{size.size}}
+        </div>
+
+        <button class="button" @click="addToCart">Add to Cart</button>
     </div>
 
     <!-- Import Js -->
