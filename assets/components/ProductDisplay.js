@@ -59,11 +59,12 @@ const productDisplay = {
     props: {
         premium: Boolean
     },
+
     setup(props) {
         // const image = ref('./assets/images/socks_green.jpg');
         // const inStock = ref(true);
-        const shipping = computed(() => {
-            if (premium) {
+        const shipping = computed(()=>{
+            if (props.premium) {
                 return 'Free';
             }
             else {
@@ -132,23 +133,24 @@ const productDisplay = {
             }
         });
 
-            return {
-                title,
-                description,
-                image,
-                inStock,
-                inventory,
-                onSale,
-                details,
-                variants,
-                sizes,
-                cart,
-                addToCart,
-                updateImage,
-                updateStock,
-                updateSale,
-                updateVariant,
-                shipping
-            }
+        return {
+            title,
+            description,
+            image,
+            inStock,
+            inventory,
+            onSale,
+            details,
+            variants,
+            sizes,
+            cart,
+            addToCart,
+            updateImage,
+            updateStock,
+            updateSale,
+            updateVariant,
+            shipping
+        }    
     }
 }
+

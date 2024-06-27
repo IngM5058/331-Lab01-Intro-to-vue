@@ -10,5 +10,5 @@ createApp = createApp({
         }
     }
 })
-app.component('product-display', productDisplay);
+app.components('product-display', productDisplay);
 app.mount('#app');
