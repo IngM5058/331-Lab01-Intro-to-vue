@@ -30,7 +30,7 @@ createApp({
         });
 
         const inStock = computed(() => {
-            return variants.value[selectedVariant.value].quantity > 0;
+            return variants.value[selectedVariant.value].quantity;
         });
 
         const selectedVariant = ref(0);
@@ -79,6 +79,8 @@ createApp({
                 addToCart,
                 updateImage,
                 updateStock,
+                updateSale,
+                updateVariant,
             }
     }
 
