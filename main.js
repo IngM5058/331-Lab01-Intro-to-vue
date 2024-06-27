@@ -17,12 +17,16 @@ createApp({
             { id: 2234, color: 'green', image: './assets/images/socks_green.jpg' },
             { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg' },
         ]);
-
         const sizes = ref([
             { id: 1, size: 'S' },
             { id: 2, size: 'M' },
             { id: 3, size: 'L' },
         ]);
+
+        const cart = ref(0);
+        function addToCart() {
+            cart.value += 1;
+        }
 
             return {
                 product,
@@ -34,6 +38,9 @@ createApp({
                 details,
                 variants,
                 sizes,
-            };
-    },
+                cart,
+                addToCart,
+            }
+    }
+
 }).mount('#app');
