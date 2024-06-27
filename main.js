@@ -4,7 +4,7 @@ createApp({
     setup() {
         const product = ref('Socks');
         const brand =ref('SE 331')
-        const description = ref('Bro, trust me, dont buy it.');
+        const description = ref('made with tear of 13 yo kids');
         function updateStock() {
             inStock.value = !inStock.value;
         }
