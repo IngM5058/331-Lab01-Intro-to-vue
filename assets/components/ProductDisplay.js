@@ -36,10 +36,6 @@ const productDisplay = {
             <p v-if="onSale">On Sale</p>
             <p v-else></p>
 
-            <ul>
-                <li v-for="detail in details">{{detail}}</li>
-            </ul>
-
             <!-- Color Circle -->
             <div v-for="(variant,index) in variants" :key="variant.id" @mouseover="updateVariant(index)" 
                 class="color-circle" :style="{backgroundColor: variant.color}">
@@ -79,12 +75,6 @@ const productDisplay = {
         }
 
         const inventory = ref(100);
-
-        const details = ref([
-            '50% cotton',
-            '30% wool',
-            '20% polyester'
-        ]);
 
         const variants = ref([
             { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50, Sale: true},
