@@ -45,7 +45,7 @@ const productDisplay = {
             <p></p>
 
             <div v-for="size in sizes" :key="size.id">
-                {{size.size}}
+                <li>{{size.size}}</li>
             </div>
 
             <!-- Add to Cart Button -->
@@ -56,7 +56,7 @@ const productDisplay = {
         premium: Boolean
     },
 
-    setup(props) {
+    setup(props, { emit }) {
         // const image = ref('./assets/images/socks_green.jpg');
         // const inStock = ref(true);
         const shipping = computed(()=>{
@@ -111,7 +111,7 @@ const productDisplay = {
         ]);
 
         function addToCart() {
-            cart.value += 1;
+            emit('add-to-cart', variants.value[selectedVariant.value].id);
         }
 
         const title = computed(() => {
