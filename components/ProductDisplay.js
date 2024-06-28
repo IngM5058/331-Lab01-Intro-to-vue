@@ -50,7 +50,8 @@ const productDisplay = {
 
             <!-- Add to Cart Button -->
             <button class="button" :disabled='!inStock' @click="addToCart" :class="{disabledButton: !inStock}">Add to Cart</button>     
-        </div>
+            <button class="button" @click="removeFromCart">Remove from Cart</button>      
+            </div>
     `,
     props: {
         premium: Boolean
@@ -114,6 +115,10 @@ const productDisplay = {
             emit('add-to-cart', variants.value[selectedVariant.value].id);
         }
 
+        function removeFromCart() {
+            emit('remove-from-cart', variants.value[selectedVariant.value].id);
+        }
+
         const title = computed(() => {
             if (onSale.value == true) { 
             return brand.value + ' ' + product.value + ' ' + 'On Sale';
@@ -133,6 +138,7 @@ const productDisplay = {
             variants,
             sizes,
             addToCart,
+            removeFromCart,
             updateImage,
             updateStock,
             updateSale,
