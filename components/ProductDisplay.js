@@ -27,7 +27,7 @@ const productDisplay = {
 
             <product-details :details></product-details>
             
-            <div v-for="(variant, index) in variants" :key="variant.id" @mouseover="updateVariant(index)" class="color-circle" :style="{backgroundColor: variant.color}">{{variant.color}}</div>
+            <div v-for="(variant, index) in variants" :key="variant.id" @mouseover="updateVariant(index)" class="color-circle" :style="{backgroundColor: variant.color}"></div>
             <p><span v-for="size in sizes">{{size}} ,</span></p>
             <!-- shorten version -->
             <div>
