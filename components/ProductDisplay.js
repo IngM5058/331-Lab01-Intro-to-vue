@@ -4,6 +4,7 @@ const productDisplay = {
         /*html*/
         `
         <div class="product-display">
+            <!-- Product Image -->
             <div class="product-container">
                 <div class="product-image">
                     <!-- image goes here -->
@@ -14,10 +15,7 @@ const productDisplay = {
             <!-- Product Info -->
             <div class="product-info">
                 <h1><a :href="'http://www.camt.cmu.ac.th'">{{title}}</a></h1>
-                <p>{{description}}</p>
-            </div>
-
-            <!-- Stock Button -->
+                <!-- Stock Button -->
             <div class="StockButton">
                 <button class="button" @click="updateStock"v-if="inStock">
                     In Stock
@@ -26,13 +24,20 @@ const productDisplay = {
                 <button class="button" @click="updateStock"v-else>
                     Out of Stock
                 </button>
+
+                <!-- Image Display -->
+                <img class="out-of-stock-image" :disabled='inStock' src="assets/images/inStock.png" alt="" :class="{disabledButton: !inStock}" style="width: 20%; height: 20%">
+            </div>
+                <p>{{description}}</p>
+
+                <!-- Product Details -->
+                <product-details></product-details>
             </div>
             
             <!-- Shipping -->
             <p>Shipping: {{shipping}}</p>
-
-            <img class="out-of-stock-image" :disabled='inStock' src="assets/images/inStock.png" alt="" :class="{disabledButton: !inStock}" style="width: 20%; height: 20%">
-
+            
+            <!-- Sale Display -->
             <p v-if="onSale">On Sale</p>
             <p v-else></p>
 
@@ -44,6 +49,7 @@ const productDisplay = {
             <!-- Empty space between Color Circle and size-->
             <p></p>
 
+            <!-- Size List -->
             <div v-for="size in sizes" :key="size.id">
                 <li>{{size.size}}</li>
             </div>
@@ -52,6 +58,12 @@ const productDisplay = {
             <button class="button" :disabled='!inStock' @click="addToCart" :class="{disabledButton: !inStock}">Add to Cart</button>     
             <button class="button" @click="removeFromCart">Remove from Cart</button>      
             </div>
+
+            <!-- Review List -->
+            <review-list v-if="review.length" :reviews="review"></review-list>
+
+            <!-- Review Form -->
+            <review-form @review-submitted="addReview"></review-form>
     `,
     props: {
         premium: Boolean
@@ -60,6 +72,11 @@ const productDisplay = {
     setup(props, { emit }) {
         // const image = ref('./assets/images/socks_green.jpg');
         // const inStock = ref(true);
+        const review = ref([]);
+        function addReview(review){
+            review.value.push(review)//11.5
+        }
+
         const shipping = computed(()=>{
             if (props.premium) {
                 return 'Free';
@@ -143,8 +160,9 @@ const productDisplay = {
             updateStock,
             updateSale,
             updateVariant,
-            shipping
+            shipping,
+            review,
+            addReview
         }    
     }
 }
-
