@@ -1,31 +1,27 @@
+
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Intro SE331</title>
+        <!-- Import Styles -->
+        <link rel="stylesheet" href="./assets/styles.css" />
+        <!-- Import Vue.js -->
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <title>Intro SE331</title>
-    <!-- Import Styles -->
-    <link rel="stylesheet" href="./assets/styles.css" />
-    <!-- Import Vue.js -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-</head>
-
-<body>
-    <div id="app">
-        <div class="nav-bar"></div>
-        <div class="cart">
-            Cart {{cart}}  {{productCounter}}
+    <body>
+        <div id="app">
+            <div class="nav-bar"></div>
+            <div class="cart">Cart({{cart}})</div>
+            <product-display :premium="premium" :details="details" @add-to-cart="updateCart" @remove-from-cart="removeFromCart"></product-display>
         </div>
 
-        <product-display :premium="premium" @add-to-cart="updateCart" @remove-from-cart="removeCart"></product-display>
-    </div>  
-
-    <!-- Import Js -->
-    <script src="./components/ProductDisplay.js"></script>
-    <script src="./components/ProductDetails.js"></script>
-    <script src="./components/ReviewForm.js"></script>
-    <script src="./components/ReviewList.js"></script>
-    <script src="./main.js"></script>
-</body>
-
+        <!-- Import Js -->
+        <script src="./components/reviewForm.js"></script>
+        <script src="./components/reviewList.js"></script>
+        <script src="./components/productDetails.js"></script>
+        <script src="./components/productDisplay.js"></script>
+        <script src="./main.js"></script>
+    </body>
 </html>

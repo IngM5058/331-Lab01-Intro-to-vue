@@ -1,168 +1,132 @@
+// display template
 const productDisplay = {
-
-    template: 
-        /*html*/
-        `
+    /*html*/
+    template: `
         <div class="product-display">
-            <!-- Product Image -->
             <div class="product-container">
                 <div class="product-image">
                     <!-- image goes here -->
-                    <img :src="image" alt="product" />
+                    <img :src="image" alt="" :class="{outOfStockImage: !inStock}" />
                 </div>
             </div>
+        </div>
+        <div class="product-info">
+            <h1 v-if="onSale"><a :href="productLink" target="_blank">{{onSaleTitle}}</a></h1>
+            <h1 v-else><a :href="productLink" target="_blank">{{title}}</a></h1>
+            <p>description : {{desc}}</p>
 
-            <!-- Product Info -->
-            <div class="product-info">
-                <h1><a :href="'http://www.camt.cmu.ac.th'">{{title}}</a></h1>
-                <!-- Stock Button -->
-            <div class="StockButton">
-                <button class="button" @click="updateStock"v-if="inStock">
-                    In Stock
-                </button>
+            <!-- stock -->
+            <p v-if="!inStock">Out of Stock</p>
+            <p v-else-if="inventory > 10">In Stock</p>
+            <p v-else>Low Stock</p>
 
-                <button class="button" @click="updateStock"v-else>
-                    Out of Stock
-                </button>
-
-                <!-- Image Display -->
-                <img class="out-of-stock-image" :disabled='inStock' src="assets/images/inStock.png" alt="" :class="{disabledButton: !inStock}" style="width: 20%; height: 20%">
-            </div>
-                <p>{{description}}</p>
-
-                <!-- Product Details -->
-                <product-details></product-details>
-            </div>
-            
-            <!-- Shipping -->
             <p>Shipping: {{shipping}}</p>
+
+            <!-- sale -->
+            <p v-if="sale">ON SALE !!!</p>
+            <p v-else>not on sale</p>
+
+            <product-details :details></product-details>
             
-            <!-- Sale Display -->
-            <p v-if="onSale">On Sale</p>
-            <p v-else></p>
-
-            <!-- Color Circle -->
-            <div v-for="(variant,index) in variants" :key="variant.id" @mouseover="updateVariant(index)" 
-                class="color-circle" :style="{backgroundColor: variant.color}">
+            <div v-for="(variant, index) in variants" :key="variant.id" @mouseover="updateVariant(index)" class="color-circle" :style="{backgroundColor: variant.color}">{{variant.color}}</div>
+            <p><span v-for="size in sizes">{{size}} ,</span></p>
+            <!-- shorten version -->
+            <div>
+                <button class="button" :disabled="!inStock" @click="addToCart" :class="{disabledButton: !inStock}">Add to cart</button>
+                <button class="button" :disabled="!inStock" @click="removeFromCart" :class="{disabledButton: !inStock}">Remove from cart</button>
+                <button class="button" @click="toggleInStock">Toggle stock status</button>
             </div>
-
-            <!-- Empty space between Color Circle and size-->
-            <p></p>
-
-            <!-- Size List -->
-            <div v-for="size in sizes" :key="size.id">
-                <li>{{size.size}}</li>
-            </div>
-
-            <!-- Add to Cart Button -->
-            <button class="button" :disabled='!inStock' @click="addToCart" :class="{disabledButton: !inStock}">Add to Cart</button>     
-            <button class="button" @click="removeFromCart">Remove from Cart</button>      
-            </div>
-
-            <!-- Review List -->
-            <review-list v-if="review.length" :reviews="review"></review-list>
-
-            <!-- Review Form -->
+            <review-list v-if="reviews.length" :reviews="reviews"></review-list>
             <review-form @review-submitted="addReview"></review-form>
+        </div>
+
     `,
     props: {
-        premium: Boolean
+        premium: Boolean,
+        details: Array,
     },
-
-    setup(props, { emit }) {
-        // const image = ref('./assets/images/socks_green.jpg');
-        // const inStock = ref(true);
-        const review = ref([]);
-        function addReview(review){
-            review.value.push(review)//11.5
-        }
-
-        const shipping = computed(()=>{
+    setup(props, {emit}) {
+        // Attributes
+        const reviews = ref([]);
+        const shipping = computed(() => {
             if (props.premium) {
-                return 'Free';
-            }
-            else {
+                return "free";
+            } else {
                 return 30;
             }
         });
-        const product = ref('Socks');
-        const brand =ref('SE 331')
-        const description = ref('made with tear of 13 yo kids');
-        function updateStock() {
-            inStock.value = !inStock.value;
-        }
-
+        const sizes = ref(["S", "M", "L"]);
+        const product = ref("Boots");
+        const brand = ref("SE 331");
+        const desc = ref("Wears on both feet, keeps you warm");
         const inventory = ref(100);
-
+        const productLink = ref("https://www.camt.cmu.ac.th/");
+        // big attributes
         const variants = ref([
-            { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50, Sale: true},
-            { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0, Sale: false},
+            { id: 2234, color: "green", image: "./assets/images/socks_green.jpg", quantity: 50, onSale: true },
+            { id: 2235, color: "blue", image: "./assets/images/socks_blue.jpg", quantity: 0, onSale: false },
         ]);
-        function updateImage(variantImage) {
-            image.value = variantImage;
+        const selectedVariant = ref(0);
+        function updateVariant(_index) {
+            selectedVariant.value = _index;
         }
-
         const image = computed(() => {
             return variants.value[selectedVariant.value].image;
         });
-
         const inStock = computed(() => {
             return variants.value[selectedVariant.value].quantity;
         });
-
-        const selectedVariant = ref(0);
-        function updateVariant(index) {
-            selectedVariant.value = index;
-        }
-
         const onSale = computed(() => {
-            return variants.value[selectedVariant.value].Sale;
+            return variants.value[selectedVariant.value].onSale;
         });
-        function updateSale() {
-            onSale.value = !onSale.value;
+
+        // functions
+        function addReview(_review){
+            reviews.value.push(_review);
+            console.log('Reviews : ');
+            reviews.value.forEach(element => {
+                console.log(element);
+            });
         }
-
-        const sizes = ref([
-            { id: 1, size: 'S' },
-            { id: 2, size: 'M' },
-            { id: 3, size: 'L' },
-        ]);
-
         function addToCart() {
             emit('add-to-cart', variants.value[selectedVariant.value].id);
         }
-
         function removeFromCart() {
             emit('remove-from-cart', variants.value[selectedVariant.value].id);
         }
-
+        function updateImage(_variant_image) {
+            image.value = _variant_image;
+        }
+        function toggleInStock() {
+            inStock.value = !inStock.value;
+        }
+        // title
         const title = computed(() => {
-            if (onSale.value == true) { 
-            return brand.value + ' ' + product.value + ' ' + 'On Sale';
-            }
-            else {
-                return brand.value + ' ' + product.value;
-            }
+            return brand.value + " " + product.value;
         });
-
+        const onSaleTitle = computed(() => {
+            return brand.value + " " + product.value + " is on sale!";
+        });
+        // return
         return {
             title,
-            description,
+            onSaleTitle,
+            desc,
             image,
+            productLink,
             inStock,
             inventory,
             onSale,
             variants,
             sizes,
+            addReview,
             addToCart,
             removeFromCart,
             updateImage,
-            updateStock,
-            updateSale,
             updateVariant,
+            toggleInStock,
             shipping,
-            review,
-            addReview
-        }    
-    }
-}
+            reviews
+        };
+    },
+};
