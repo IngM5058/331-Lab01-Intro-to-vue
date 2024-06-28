@@ -1,4 +1,3 @@
-// display template
 const productDisplay = {
     /*html*/
     template: `
