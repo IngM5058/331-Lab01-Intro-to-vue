@@ -2,7 +2,7 @@ const { createApp, ref, computed, reactive, toRefs } = Vue;
 const app = createApp({
     setup() {
         const cart = ref([]);
-        const premium = ref(false);
+        const premium = ref(true);
         const details = ref(["50% cotton", "30% wool", "20% polyester"]);
         function updateCart(_id) {
             for (var i = 0; i < cart.value.length; i++) {
